@@ -1,12 +1,20 @@
+import { ApolloProvider } from '@apollo/client'
+import { StatusBar } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
 import { NativeRouter } from 'react-router-native'
-import Main from './src/views/Main'
+import Main from './src/Main'
+import createApolloClient from './src/services/utils/apolloClient'
+
+const client = createApolloClient()
 
 const App = (): React.JSX.Element => {
   return (
-    <NativeRouter>
-      <Main />
-    </NativeRouter>
+    <ApolloProvider client={client}>
+      <StatusBar style="light" />
+      <NativeRouter>
+        <Main />
+      </NativeRouter>
+    </ApolloProvider>
   )
 }
 

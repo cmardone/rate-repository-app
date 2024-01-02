@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 interface Colors {
   textPrimary: string
   textSecondary: string
@@ -72,7 +74,11 @@ const theme: Theme = {
     subheading: 16,
   },
   fonts: {
-    main: 'System',
+    main: Platform.select({
+      ios: 'Arial',
+      android: 'Roboto',
+      default: 'System',
+    }),
   },
   fontWeights: {
     normal: '400',

@@ -1,5 +1,5 @@
 import { Repository } from '@/types/interfaces'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import theme from '../theme'
 import RepositoryItemHeader from './RepositoryItemHeader'
 import RepositoryStats from './RepositoryStats'
@@ -22,7 +22,11 @@ const styles = StyleSheet.create({
   language: {
     padding: 4,
     color: theme.colors.white,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: Platform.select({
+      android: theme.colors.primary,
+      ios: 'orange',
+      default: 'purple',
+    }),
     alignSelf: 'flex-start',
     borderRadius: 4,
     overflow: 'hidden',

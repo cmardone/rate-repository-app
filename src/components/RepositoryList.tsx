@@ -1,17 +1,50 @@
 import { Repository } from '@/types/interfaces'
-import { FlatList, Text } from 'react-native'
-import repositories from '../data/repositories'
+import Constants from 'expo-constants'
+import { Dimensions, FlatList, Text, View } from 'react-native'
+import useRepositories from '../hooks/useRepositories'
 import RepositoryItem from './RepositoryItem'
 
+const windowHeight = Dimensions.get('window').height
+
 const RepositoryList = () => {
+  const { isLoading, repositories } = useRepositories()
+
   return (
-    <FlatList
-      data={repositories}
-      ItemSeparatorComponent={() => <Text></Text>}
-      renderItem={({ item: repo }: { item: Repository }) => (
-        <RepositoryItem repo={repo} />
+    <>
+      {isLoading && (
+        <View
+          style={{
+            minHeight: windowHeight - Constants.statusBarHeight,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text>IsLoading...</Text>
+        </View>
       )}
-    ></FlatList>
+      {!isLoading && repositories.length === 0 && (
+        <View>
+          <Text
+            style={{
+              alignSelf: 'center',
+              fontWeight: 'bold',
+              marginTop: 15,
+            }}
+          >
+            There is not availables repositories!
+          </Text>
+        </View>
+      )}
+      {!isLoading && repositories.length > 0 && (
+        <FlatList
+          data={repositories}
+          ItemSeparatorComponent={() => <Text></Text>}
+          renderItem={({ item: repo }: { item: Repository }) => (
+            <RepositoryItem repo={repo} />
+          )}
+        ></FlatList>
+      )}
+    </>
   )
 }
 
